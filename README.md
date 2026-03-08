@@ -1,1 +1,1 @@
-# amz-cosmicdash
+# amz-res
