@@ -3,753 +3,1030 @@
 <html lang="ku" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>🌌 Cosmic Dash</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMZ Restaurant - Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Amiri:wght@400;700&family=Noto+Sans+Kurdish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap');
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --deep: #1A0F0A;
+    --charcoal: #2C1A12;
+    --cream: #FDF6EC;
+    --rust: #8B3A1E;
+    --text-dark: #1A0F0A;
+    --text-muted: #6B4C3B;
+  }
 
 - { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root {
-–neon-cyan: #00f5ff;
-–neon-pink: #ff006e;
-–neon-purple: #8338ec;
-–neon-yellow: #ffd60a;
-–dark: #03001c;
-–mid: #0a0a2e;
-}
-
 body {
-background: var(–dark);
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-overflow: hidden;
-font-family: ‘Orbitron’, monospace;
-touch-action: none;
+background: var(–deep);
+min-height: 100vh;
+font-family: ‘Noto Sans Kurdish’, ‘Amiri’, serif;
+overflow-x: hidden;
 }
 
-#gameContainer {
-position: relative;
-width: min(400px, 100vw);
-height: min(700px, 100vh);
-overflow: hidden;
-border: 2px solid var(–neon-cyan);
-box-shadow: 0 0 40px var(–neon-cyan), inset 0 0 40px rgba(0,245,255,0.05);
-border-radius: 12px;
-}
-
-canvas {
-display: block;
-width: 100%;
-height: 100%;
-}
-
-#ui {
-position: absolute;
-top: 0; left: 0; right: 0; bottom: 0;
-pointer-events: none;
-}
-
-#score {
-position: absolute;
-top: 20px;
-left: 50%;
-transform: translateX(-50%);
-font-size: 2.5rem;
-font-weight: 900;
-color: var(–neon-cyan);
-text-shadow: 0 0 20px var(–neon-cyan), 0 0 40px var(–neon-cyan);
-letter-spacing: 4px;
-}
-
-#highScore {
-position: absolute;
-top: 70px;
-left: 50%;
-transform: translateX(-50%);
-font-size: 0.75rem;
-color: rgba(0,245,255,0.5);
-letter-spacing: 2px;
-white-space: nowrap;
-}
-
-#lives {
-position: absolute;
-top: 20px;
-right: 16px;
-display: flex;
-gap: 6px;
-}
-
-.heart {
-font-size: 1.2rem;
-filter: drop-shadow(0 0 6px var(–neon-pink));
-}
-
-#overlay {
-position: absolute;
-top: 0; left: 0; right: 0; bottom: 0;
+/* ===== QR LANDING PAGE ===== */
+#qr-page {
 display: flex;
 flex-direction: column;
-justify-content: center;
 align-items: center;
-background: rgba(3,0,28,0.9);
-backdrop-filter: blur(6px);
-pointer-events: all;
-transition: opacity 0.4s;
+justify-content: center;
+min-height: 100vh;
+background: radial-gradient(ellipse at center, #2C1A12 0%, #1A0F0A 70%);
+padding: 40px 20px;
+position: relative;
 }
 
-#overlay.hidden {
-opacity: 0;
+#qr-page::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background-image:
+repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px),
+repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px);
 pointer-events: none;
 }
 
-.title {
-font-size: 2.8rem;
-font-weight: 900;
-background: linear-gradient(135deg, var(–neon-cyan), var(–neon-pink), var(–neon-purple));
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
+.logo-wrap {
 text-align: center;
-line-height: 1.1;
-margin-bottom: 8px;
-animation: titlePulse 2s ease-in-out infinite;
-}
-
-@keyframes titlePulse {
-0%, 100% { filter: drop-shadow(0 0 10px var(–neon-cyan)); }
-50% { filter: drop-shadow(0 0 25px var(–neon-pink)); }
-}
-
-.subtitle {
-font-family: ‘Rajdhani’, sans-serif;
-font-size: 1rem;
-color: rgba(0,245,255,0.6);
 margin-bottom: 40px;
-letter-spacing: 3px;
-text-transform: uppercase;
+animation: fadeDown 1s ease;
 }
 
-#startBtn {
-background: transparent;
-border: 2px solid var(–neon-pink);
-color: var(–neon-pink);
-font-family: ‘Orbitron’, monospace;
-font-size: 1rem;
-font-weight: 700;
-padding: 16px 40px;
-cursor: pointer;
+.logo-line {
+display: flex;
+align-items: center;
+gap: 16px;
+justify-content: center;
+margin-bottom: 8px;
+}
+
+.logo-ornament {
+width: 60px;
+height: 1px;
+background: linear-gradient(to right, transparent, var(–gold));
+}
+.logo-ornament.right {
+background: linear-gradient(to left, transparent, var(–gold));
+}
+
+.logo-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 56px;
+font-weight: 900;
+color: var(–gold);
+letter-spacing: 8px;
+text-shadow: 0 0 40px rgba(201,168,76,0.3);
+}
+
+.logo-sub {
+font-family: ‘Amiri’, serif;
+color: var(–gold-light);
+font-size: 15px;
+letter-spacing: 4px;
+opacity: 0.8;
+}
+
+.diamonds {
+display: flex;
+gap: 8px;
+justify-content: center;
+margin-top: 12px;
+}
+
+.diamond {
+width: 6px;
+height: 6px;
+background: var(–gold);
+transform: rotate(45deg);
+opacity: 0.6;
+}
+.diamond.big { width: 10px; height: 10px; opacity: 1; }
+
+.qr-card {
+background: var(–cream);
+border-radius: 24px;
+padding: 40px;
+text-align: center;
+box-shadow: 0 0 60px rgba(201,168,76,0.2), 0 30px 60px rgba(0,0,0,0.5);
+border: 2px solid rgba(201,168,76,0.3);
+animation: fadeUp 1s ease 0.3s both;
+max-width: 360px;
+width: 100%;
+}
+
+#qr-code {
+display: flex;
+justify-content: center;
+margin-bottom: 24px;
+}
+
+#qr-code canvas, #qr-code img {
+border-radius: 8px;
+border: 4px solid var(–gold);
+}
+
+.scan-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 13px;
+color: var(–text-muted);
 letter-spacing: 3px;
 text-transform: uppercase;
+margin-bottom: 8px;
+}
+
+.scan-texts {
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+
+.scan-ku { font-family: ‘Noto Sans Kurdish’, sans-serif; font-size: 16px; color: var(–charcoal); font-weight: 600; }
+.scan-en { font-family: ‘Playfair Display’, serif; font-size: 14px; color: var(–text-muted); }
+.scan-ar { font-family: ‘Amiri’, serif; font-size: 16px; color: var(–text-muted); direction: rtl; }
+
+.open-btn {
+margin-top: 28px;
+display: inline-block;
+padding: 14px 40px;
+background: linear-gradient(135deg, var(–charcoal), var(–rust));
+color: var(–gold-light);
+font-family: ‘Playfair Display’, serif;
+font-size: 13px;
+letter-spacing: 3px;
+text-transform: uppercase;
+border: 1px solid var(–gold);
+border-radius: 40px;
+cursor: pointer;
+text-decoration: none;
+transition: all 0.3s ease;
+box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.open-btn:hover {
+background: linear-gradient(135deg, var(–rust), var(–charcoal));
+box-shadow: 0 0 30px rgba(201,168,76,0.4);
+transform: translateY(-2px);
+}
+
+/* ===== MENU PAGE ===== */
+#menu-page {
+display: none;
+background: var(–cream);
+min-height: 100vh;
+}
+
+.menu-header {
+background: linear-gradient(160deg, var(–deep) 0%, var(–charcoal) 60%, var(–rust) 100%);
+padding: 60px 20px 80px;
+text-align: center;
 position: relative;
 overflow: hidden;
-transition: all 0.3s;
-box-shadow: 0 0 20px rgba(255,0,110,0.3), inset 0 0 20px rgba(255,0,110,0.05);
-border-radius: 4px;
 }
 
-#startBtn:hover, #startBtn:active {
-background: var(–neon-pink);
-color: var(–dark);
-box-shadow: 0 0 40px rgba(255,0,110,0.8);
-transform: scale(1.05);
-}
-
-.final-score {
-font-size: 1.2rem;
-color: var(–neon-yellow);
-text-shadow: 0 0 15px var(–neon-yellow);
-margin-bottom: 10px;
-letter-spacing: 2px;
-}
-
-.best-score {
-font-size: 0.8rem;
-color: rgba(255,214,10,0.6);
-margin-bottom: 30px;
-letter-spacing: 2px;
-}
-
-.tip {
+.menu-header::after {
+content: ‘’;
 position: absolute;
-bottom: 24px;
-left: 50%;
-transform: translateX(-50%);
-font-family: ‘Rajdhani’, sans-serif;
-font-size: 0.8rem;
-color: rgba(0,245,255,0.35);
+bottom: -1px;
+left: 0; right: 0;
+height: 60px;
+background: var(–cream);
+clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.header-ornament {
+color: var(–gold);
+font-size: 28px;
+letter-spacing: 8px;
+margin-bottom: 12px;
+animation: pulse 3s ease-in-out infinite;
+}
+
+.header-title {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(36px, 8vw, 64px);
+font-weight: 900;
+color: var(–gold);
+letter-spacing: 6px;
+text-shadow: 0 0 30px rgba(201,168,76,0.4);
+}
+
+.header-tagline {
+margin-top: 12px;
+display: flex;
+flex-direction: column;
+gap: 2px;
+opacity: 0.85;
+}
+
+.tagline-ku { font-family: ‘Noto Sans Kurdish’; color: var(–gold-light); font-size: 14px; }
+.tagline-en { font-family: ‘Playfair Display’; color: var(–gold-light); font-size: 13px; font-style: italic; }
+.tagline-ar { font-family: ‘Amiri’; color: var(–gold-light); font-size: 15px; }
+
+/* Language Toggle */
+.lang-bar {
+display: flex;
+justify-content: center;
+gap: 8px;
+padding: 20px;
+background: white;
+border-bottom: 1px solid rgba(0,0,0,0.08);
+position: sticky;
+top: 0;
+z-index: 100;
+box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+
+.lang-btn {
+padding: 8px 20px;
+border: 1.5px solid var(–gold);
+background: transparent;
+color: var(–text-muted);
+font-size: 13px;
+border-radius: 30px;
+cursor: pointer;
+transition: all 0.2s;
+font-family: inherit;
+letter-spacing: 1px;
+}
+
+.lang-btn.active {
+background: var(–charcoal);
+color: var(–gold-light);
+border-color: var(–charcoal);
+}
+
+/* Category Tabs */
+.cat-tabs {
+display: flex;
+gap: 0;
+overflow-x: auto;
+padding: 0 20px;
+background: white;
+border-bottom: 2px solid rgba(201,168,76,0.2);
+scrollbar-width: none;
+}
+.cat-tabs::-webkit-scrollbar { display: none; }
+
+.cat-tab {
+padding: 16px 24px;
 white-space: nowrap;
-animation: blink 1.5s ease-in-out infinite;
+cursor: pointer;
+font-size: 13px;
+letter-spacing: 1px;
+color: var(–text-muted);
+border-bottom: 3px solid transparent;
+margin-bottom: -2px;
+transition: all 0.2s;
+font-family: ‘Playfair Display’, serif;
+background: none;
+border-left: none;
+border-right: none;
+border-top: none;
 }
 
-@keyframes blink {
-0%, 100% { opacity: 1; }
-50% { opacity: 0.3; }
+.cat-tab.active {
+color: var(–rust);
+border-bottom-color: var(–gold);
+font-weight: 700;
 }
 
-#combo {
+/* Menu Items */
+.menu-section { display: none; }
+.menu-section.active { display: block; }
+
+.section-label {
+text-align: center;
+padding: 40px 20px 20px;
+}
+
+.section-label h2 {
+font-family: ‘Playfair Display’, serif;
+font-size: 28px;
+color: var(–charcoal);
+position: relative;
+display: inline-block;
+}
+
+.section-label h2::before,
+.section-label h2::after {
+content: ‘✦’;
+color: var(–gold);
+margin: 0 12px;
+font-size: 16px;
+}
+
+.items-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 24px;
+padding: 0 20px 40px;
+max-width: 1100px;
+margin: 0 auto;
+}
+
+.menu-item {
+background: white;
+border-radius: 20px;
+overflow: hidden;
+box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+border: 1px solid rgba(201,168,76,0.1);
+}
+
+.menu-item:hover {
+transform: translateY(-6px);
+box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+
+.item-img-wrap {
+position: relative;
+height: 200px;
+overflow: hidden;
+}
+
+.item-img-wrap img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.5s ease;
+}
+
+.menu-item:hover .item-img-wrap img {
+transform: scale(1.08);
+}
+
+.item-badge {
 position: absolute;
-top: 110px;
-left: 50%;
-transform: translateX(-50%);
-font-size: 0.9rem;
-color: var(–neon-yellow);
-text-shadow: 0 0 10px var(–neon-yellow);
-letter-spacing: 2px;
-opacity: 0;
-transition: opacity 0.3s;
+top: 12px;
+left: 12px;
+background: var(–rust);
+color: white;
+font-size: 10px;
+padding: 4px 10px;
+border-radius: 20px;
+letter-spacing: 1px;
+font-family: ‘Playfair Display’, serif;
 }
 
-#combo.show { opacity: 1; }
+.item-body {
+padding: 20px;
+}
+
+.item-name-ku { font-family: ‘Noto Sans Kurdish’; font-size: 17px; font-weight: 700; color: var(–charcoal); }
+.item-name-en { font-family: ‘Playfair Display’; font-size: 15px; color: var(–text-muted); font-style: italic; }
+.item-name-ar { font-family: ‘Amiri’; font-size: 16px; color: var(–text-muted); direction: rtl; }
+
+.lang-ku .item-name-ku { display: block; }
+.lang-ku .item-name-en { display: none; }
+.lang-ku .item-name-ar { display: none; }
+
+.lang-en .item-name-en { display: block; }
+.lang-en .item-name-ku { display: none; }
+.lang-en .item-name-ar { display: none; }
+
+.lang-ar .item-name-ar { display: block; }
+.lang-ar .item-name-ku { display: none; }
+.lang-ar .item-name-en { display: none; }
+
+.item-desc {
+margin-top: 8px;
+font-size: 13px;
+color: var(–text-muted);
+line-height: 1.6;
+}
+
+.desc-ku { font-family: ‘Noto Sans Kurdish’; }
+.desc-en { font-family: ‘Playfair Display’; font-style: italic; }
+.desc-ar { font-family: ‘Amiri’; direction: rtl; font-size: 14px; }
+
+.lang-ku .desc-en, .lang-ku .desc-ar { display: none; }
+.lang-en .desc-ku, .lang-en .desc-ar { display: none; }
+.lang-ar .desc-ku, .lang-ar .desc-en { display: none; }
+
+.item-footer {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-top: 16px;
+padding-top: 16px;
+border-top: 1px solid rgba(201,168,76,0.15);
+}
+
+.item-price {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 900;
+color: var(–rust);
+}
+
+.price-currency {
+font-size: 13px;
+color: var(–text-muted);
+margin-left: 4px;
+}
+
+.add-btn {
+width: 38px;
+height: 38px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–charcoal), var(–rust));
+border: none;
+color: var(–gold-light);
+font-size: 22px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+box-shadow: 0 4px 12px rgba(139,58,30,0.3);
+}
+
+.add-btn:hover {
+transform: scale(1.15);
+box-shadow: 0 6px 20px rgba(139,58,30,0.4);
+}
+
+/* Footer */
+.menu-footer {
+background: var(–deep);
+color: var(–gold-light);
+text-align: center;
+padding: 40px 20px;
+font-family: ‘Playfair Display’, serif;
+letter-spacing: 2px;
+}
+
+.menu-footer .brand { font-size: 24px; font-weight: 900; color: var(–gold); margin-bottom: 8px; }
+.menu-footer .info { font-size: 12px; opacity: 0.6; margin-top: 16px; }
+
+@keyframes fadeDown {
+from { opacity: 0; transform: translateY(-30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 0.6; }
+50% { opacity: 1; }
+}
+
+@media (max-width: 500px) {
+.items-grid { grid-template-columns: 1fr; padding: 0 12px 40px; }
+}
 </style>
 
 </head>
 <body>
-<div id="gameContainer">
-  <canvas id="gameCanvas"></canvas>
-  <div id="ui">
-    <div id="score">0</div>
-    <div id="highScore">BEST: 0</div>
-    <div id="lives"></div>
-    <div id="combo"></div>
+
+<!-- ===== QR LANDING PAGE ===== -->
+
+<div id="qr-page">
+  <div class="logo-wrap">
+    <div class="logo-line">
+      <div class="logo-ornament"></div>
+      <div class="logo-name">AMZ</div>
+      <div class="logo-ornament right"></div>
+    </div>
+    <div class="logo-sub">RESTAURANT</div>
+    <div class="diamonds">
+      <div class="diamond"></div>
+      <div class="diamond big"></div>
+      <div class="diamond"></div>
+    </div>
   </div>
-  <div id="overlay">
-    <div class="title">COSMIC<br>DASH</div>
-    <div class="subtitle">یارییەکی کایهانی</div>
-    <div class="final-score" id="finalScore" style="display:none"></div>
-    <div class="best-score" id="bestScore" style="display:none"></div>
-    <button id="startBtn">▶ دەست پێبکە</button>
-    <div class="tip" id="tipText">دانەوە / کلیک / بپچکێنە بۆ فڕین</div>
+
+  <div class="qr-card">
+    <div id="qr-code"></div>
+    <div class="scan-title">SCAN TO VIEW MENU</div>
+    <div class="scan-texts">
+      <div class="scan-ku">📱 QR بسکانێنە بۆ دیتنی مینو</div>
+      <div class="scan-en">Scan QR code to view our menu</div>
+      <div class="scan-ar">امسح رمز QR لعرض قائمتنا</div>
+    </div>
+    <button class="open-btn" onclick="openMenu()">▶ Open Menu</button>
   </div>
 </div>
 
+<!-- ===== MENU PAGE ===== -->
+
+<div id="menu-page">
+
+  <div class="menu-header">
+    <div class="header-ornament">❖ ❖ ❖</div>
+    <div class="header-title">AMZ</div>
+    <div class="header-tagline">
+      <div class="tagline-ku">خواردنگەی AMZ — تامێکی جیاواز</div>
+      <div class="tagline-en">Fine Dining with Authentic Flavors</div>
+      <div class="tagline-ar">مطعم AMZ — نكهات أصيلة لا تُنسى</div>
+    </div>
+  </div>
+
+  <!-- Language Toggle -->
+
+  <div class="lang-bar">
+    <button class="lang-btn active" onclick="setLang('ku')">🇮🇶 کوردی</button>
+    <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+    <button class="lang-btn" onclick="setLang('ar')">🇸🇦 عربي</button>
+  </div>
+
+  <!-- Category Tabs -->
+
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="showCat('starters')">
+      <span class="ku-t">پێشخواردن</span>
+      <span class="en-t" style="display:none">Starters</span>
+      <span class="ar-t" style="display:none">المقبلات</span>
+    </button>
+    <button class="cat-tab" onclick="showCat('mains')">
+      <span class="ku-t">خواردنی سەرەکی</span>
+      <span class="en-t" style="display:none">Main Course</span>
+      <span class="ar-t" style="display:none">الأطباق الرئيسية</span>
+    </button>
+    <button class="cat-tab" onclick="showCat('grills')">
+      <span class="ku-t">گریل و کەباب</span>
+      <span class="en-t" style="display:none">Grills & Kebab</span>
+      <span class="ar-t" style="display:none">المشويات</span>
+    </button>
+    <button class="cat-tab" onclick="showCat('desserts')">
+      <span class="ku-t">شیرینی</span>
+      <span class="en-t" style="display:none">Desserts</span>
+      <span class="ar-t" style="display:none">الحلويات</span>
+    </button>
+    <button class="cat-tab" onclick="showCat('drinks')">
+      <span class="ku-t">خواردنەوە</span>
+      <span class="en-t" style="display:none">Drinks</span>
+      <span class="ar-t" style="display:none">المشروبات</span>
+    </button>
+  </div>
+
+  <!-- STARTERS -->
+
+  <div class="menu-section active" id="sec-starters">
+    <div class="section-label">
+      <h2 class="ku-t">پێشخواردن</h2>
+      <h2 class="en-t" style="display:none">Starters</h2>
+      <h2 class="ar-t" style="display:none">المقبلات</h2>
+    </div>
+    <div class="items-grid">
+
+```
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=600&q=80" alt="Hummus">
+      <span class="item-badge">⭐ Popular</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">حومس ئەسیل</div>
+      <div class="item-name-en">Classic Hummus</div>
+      <div class="item-name-ar">حمص أصيل</div>
+      <div class="item-desc">
+        <div class="desc-ku">حومسی دەستکرد لەگەڵ زەیت زەیتون و پاپریکا</div>
+        <div class="desc-en">Homemade hummus with olive oil and paprika</div>
+        <div class="desc-ar">حمص محلي الصنع مع زيت الزيتون والبابريكا</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">3,500 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80" alt="Fattoush">
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">سالاتەی فتوش</div>
+      <div class="item-name-en">Fattoush Salad</div>
+      <div class="item-name-ar">سلطة الفتوش</div>
+      <div class="item-desc">
+        <div class="desc-ku">سەوزە تازە لەگەڵ نانی تووش و رووبە لیمو</div>
+        <div class="desc-en">Fresh vegetables with toasted bread and lemon dressing</div>
+        <div class="desc-ar">خضروات طازجة مع خبز محمص وصلصة الليمون</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">4,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1551248429-40975aa4de74?w=600&q=80" alt="Lentil Soup">
+      <span class="item-badge">🔥 Chef's Pick</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">شۆربای مەرجیمک</div>
+      <div class="item-name-en">Lentil Soup</div>
+      <div class="item-name-ar">شوربة العدس</div>
+      <div class="item-desc">
+        <div class="desc-ku">شۆربای گەرم لەگەڵ مەرجیمکی سووری و بەرات</div>
+        <div class="desc-en">Warm red lentil soup with lemon and spices</div>
+        <div class="desc-ar">شوربة عدس أحمر دافئة مع الليمون والتوابل</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">3,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- MAINS -->
+
+  <div class="menu-section" id="sec-mains">
+    <div class="section-label">
+      <h2 class="ku-t">خواردنی سەرەکی</h2>
+      <h2 class="en-t" style="display:none">Main Course</h2>
+      <h2 class="ar-t" style="display:none">الأطباق الرئيسية</h2>
+    </div>
+    <div class="items-grid">
+
+```
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80" alt="Biryani">
+      <span class="item-badge">⭐ Popular</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">بریانی کوردی</div>
+      <div class="item-name-en">Kurdish Biryani</div>
+      <div class="item-name-ar">برياني كردي</div>
+      <div class="item-desc">
+        <div class="desc-ku">برنجی بریانی لەگەڵ گۆشتی بەران و بزارەکانی تایبەت</div>
+        <div class="desc-en">Aromatic rice with lamb and special spices</div>
+        <div class="desc-ar">أرز بسمتي مع لحم الضأن والبهارات الخاصة</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">12,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80" alt="Chicken Rice">
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">برنجی مرشکە</div>
+      <div class="item-name-en">Grilled Chicken Rice</div>
+      <div class="item-name-ar">أرز بالدجاج المشوي</div>
+      <div class="item-desc">
+        <div class="desc-ku">برنجی پخته لەگەڵ مرشکەی گریل و سسی تایبەت</div>
+        <div class="desc-en">Steamed rice with grilled chicken and special sauce</div>
+        <div class="desc-ar">أرز بخاري مع دجاج مشوي وصلصة خاصة</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">10,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80" alt="Dolma">
+      <span class="item-badge">🔥 Chef's Pick</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">دۆڵمەی کوردی</div>
+      <div class="item-name-en">Kurdish Dolma</div>
+      <div class="item-name-ar">دولمة كردية</div>
+      <div class="item-desc">
+        <div class="desc-ku">گەڵاپەی توماتی و قاچی کۆڵەم لەگەڵ برنج و گۆشتی خواردن</div>
+        <div class="desc-en">Stuffed grape leaves and vegetables with rice and meat</div>
+        <div class="desc-ar">أوراق عنب محشوة بالأرز واللحم والخضروات</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">9,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- GRILLS -->
+
+  <div class="menu-section" id="sec-grills">
+    <div class="section-label">
+      <h2 class="ku-t">گریل و کەباب</h2>
+      <h2 class="en-t" style="display:none">Grills & Kebab</h2>
+      <h2 class="ar-t" style="display:none">المشويات والكباب</h2>
+    </div>
+    <div class="items-grid">
+
+```
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1544025162-d76538d60f68?w=600&q=80" alt="Mixed Grill">
+      <span class="item-badge">⭐ Best Seller</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">گریلی تێکەڵاو</div>
+      <div class="item-name-en">Mixed Grill Platter</div>
+      <div class="item-name-ar">مشاوي مشكلة</div>
+      <div class="item-desc">
+        <div class="desc-ku">کەبابی گۆشت، مرشکە و تیکەی بەرانی گریل</div>
+        <div class="desc-en">Beef kebab, chicken and lamb chops on the grill</div>
+        <div class="desc-ar">كباب لحم، دجاج وضلوع خروف مشوية</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">18,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600&q=80" alt="Tikka">
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">تیکە گۆشت</div>
+      <div class="item-name-en">Beef Tikka</div>
+      <div class="item-name-ar">تكة لحم</div>
+      <div class="item-desc">
+        <div class="desc-ku">گۆشتی گرد گریل لەگەڵ بزاری تایبەت و نانی تەندیر</div>
+        <div class="desc-en">Grilled beef chunks with special spices and tandoor bread</div>
+        <div class="desc-ar">قطع لحم مشوية مع التوابل الخاصة وخبز التنور</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">14,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=600&q=80" alt="Chicken Kebab">
+      <span class="item-badge">🔥 Hot</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">کەبابی مرشکە</div>
+      <div class="item-name-en">Chicken Kebab</div>
+      <div class="item-name-ar">كباب الدجاج</div>
+      <div class="item-desc">
+        <div class="desc-ku">کەبابی مرشکەی نەرم لەگەڵ سسی سیر و گیایی</div>
+        <div class="desc-en">Tender chicken kebab with garlic and herb sauce</div>
+        <div class="desc-ar">كباب دجاج طري مع صلصة الثوم والأعشاب</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">11,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- DESSERTS -->
+
+  <div class="menu-section" id="sec-desserts">
+    <div class="section-label">
+      <h2 class="ku-t">شیرینی</h2>
+      <h2 class="en-t" style="display:none">Desserts</h2>
+      <h2 class="ar-t" style="display:none">الحلويات</h2>
+    </div>
+    <div class="items-grid">
+
+```
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=600&q=80" alt="Baklava">
+      <span class="item-badge">⭐ Popular</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">بەقلاوە</div>
+      <div class="item-name-en">Baklava</div>
+      <div class="item-name-ar">بقلاوة</div>
+      <div class="item-desc">
+        <div class="desc-ku">بەقلاوەی دەستکرد لەگەڵ گوێزی قووش و شەهد</div>
+        <div class="desc-en">Homemade baklava with pistachio and honey</div>
+        <div class="desc-ar">بقلاوة محلية بالفستق الحلبي والعسل</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">5,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80" alt="Kunafa">
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">کنافە</div>
+      <div class="item-name-en">Kunafa</div>
+      <div class="item-name-ar">كنافة</div>
+      <div class="item-desc">
+        <div class="desc-ku">کنافەی گەرم لەگەڵ پنێری نەرم و شیرینی گوڵاو</div>
+        <div class="desc-en">Warm kunafa with soft cheese and rose water syrup</div>
+        <div class="desc-ar">كنافة دافئة بالجبنة الطرية وقطر ماء الورد</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">6,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80" alt="Ice Cream">
+      <span class="item-badge">🍦 New</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">دۆندورما تایبەت</div>
+      <div class="item-name-en">Special Ice Cream</div>
+      <div class="item-name-ar">آيس كريم مميز</div>
+      <div class="item-desc">
+        <div class="desc-ku">دۆندورمای دەستکرد لەگەڵ میوەی وشک و شیرینی</div>
+        <div class="desc-en">Artisan ice cream with dried fruits and toppings</div>
+        <div class="desc-ar">آيس كريم حرفي مع الفواكه المجففة والإضافات</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">4,500 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- DRINKS -->
+
+  <div class="menu-section" id="sec-drinks">
+    <div class="section-label">
+      <h2 class="ku-t">خواردنەوە</h2>
+      <h2 class="en-t" style="display:none">Beverages</h2>
+      <h2 class="ar-t" style="display:none">المشروبات</h2>
+    </div>
+    <div class="items-grid">
+
+```
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80" alt="Fresh Juice">
+      <span class="item-badge">🌿 Fresh</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">ئاو میوە تازە</div>
+      <div class="item-name-en">Fresh Fruit Juice</div>
+      <div class="item-name-ar">عصير فواكه طازج</div>
+      <div class="item-desc">
+        <div class="desc-ku">ئاو میوەی تازە بە هەڵبژاردنی مرژانە، پرتەقاڵ، یان مانگۆ</div>
+        <div class="desc-en">Fresh squeezed: watermelon, orange, or mango</div>
+        <div class="desc-ar">عصير طازج: بطيخ، برتقال أو مانجو</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">2,500 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80" alt="Doogh">
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">دووغ تایبەت</div>
+      <div class="item-name-en">Special Doogh</div>
+      <div class="item-name-ar">دوغ مميز</div>
+      <div class="item-desc">
+        <div class="desc-ku">دووغی ساردی تازە لەگەڵ نێنەک و خواردنی گیایی</div>
+        <div class="desc-en">Cold refreshing yogurt drink with mint and herbs</div>
+        <div class="desc-ar">مشروب الزبادي البارد بالنعناع والأعشاب</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">2,000 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-item">
+    <div class="item-img-wrap">
+      <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80" alt="Tea">
+      <span class="item-badge">☕ Classic</span>
+    </div>
+    <div class="item-body">
+      <div class="item-name-ku">چای کوردی</div>
+      <div class="item-name-en">Kurdish Tea</div>
+      <div class="item-name-ar">شاي كردي</div>
+      <div class="item-desc">
+        <div class="desc-ku">چای گەرمی تایبەت لەگەڵ هەڵی هێل و گوڵ</div>
+        <div class="desc-en">Special hot tea with cardamom and rose petals</div>
+        <div class="desc-ar">شاي ساخن مميز بالهيل وبتلات الورد</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">1,500 <span class="price-currency">IQD</span></div>
+        <button class="add-btn">+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="menu-footer">
+    <div class="brand">AMZ RESTAURANT</div>
+    <div>❖ ❖ ❖</div>
+    <div class="info">
+      📞 +964 750 000 0000 | 📍 هەولێر، کوردستان - Erbil, Kurdistan<br>
+      🕐 10:00 AM – 12:00 AM Daily
+    </div>
+  </div>
+
+</div>
+
 <script>
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-const container = document.getElementById('gameContainer');
+  // Generate QR Code pointing to this page itself
+  const pageURL = window.location.href.split('?')[0];
 
-// Responsive canvas
-function resize() {
-  canvas.width = container.offsetWidth;
-  canvas.height = container.offsetHeight;
-}
-resize();
-
-const W = () => canvas.width;
-const H = () => canvas.height;
-
-// Game state
-let state = 'menu'; // menu, playing, dead
-let score = 0;
-let highScore = parseInt(localStorage.getItem('cosmicHigh') || 0);
-let combo = 0;
-let lives = 3;
-let frame = 0;
-let gameSpeed = 1;
-let invincible = 0;
-
-// Player - a glowing spaceship
-const player = {
-  x: 0, y: 0,
-  vy: 0,
-  width: 36, height: 28,
-  gravity: 0.45,
-  jumpForce: -9,
-  trail: [],
-  angle: 0
-};
-
-// Obstacles - energy gates instead of pipes
-let gates = [];
-let gateTimer = 0;
-let gateInterval = 120;
-const gateGap = 160;
-
-// Particles
-let particles = [];
-let stars = [];
-let bgObjects = [];
-
-// Generate stars
-function initStars() {
-  stars = [];
-  bgObjects = [];
-  for (let i = 0; i < 80; i++) {
-    stars.push({
-      x: Math.random() * 800,
-      y: Math.random() * 800,
-      r: Math.random() * 1.5 + 0.2,
-      speed: Math.random() * 0.5 + 0.2,
-      brightness: Math.random()
-    });
-  }
-  // Nebulae
-  for (let i = 0; i < 5; i++) {
-    bgObjects.push({
-      x: Math.random() * 800,
-      y: Math.random() * 800,
-      r: Math.random() * 80 + 40,
-      color: ['rgba(131,56,236,', 'rgba(255,0,110,', 'rgba(0,245,255,'][Math.floor(Math.random()*3)],
-      alpha: Math.random() * 0.08 + 0.02,
-      speed: 0.3
-    });
-  }
-}
-
-function initPlayer() {
-  player.x = W() * 0.25;
-  player.y = H() * 0.5;
-  player.vy = 0;
-  player.trail = [];
-  player.angle = 0;
-}
-
-function resetGame() {
-  score = 0;
-  combo = 0;
-  lives = 3;
-  frame = 0;
-  gameSpeed = 1;
-  gates = [];
-  gateTimer = 0;
-  gateInterval = 120;
-  particles = [];
-  invincible = 0;
-  initPlayer();
-  updateLives();
-  document.getElementById('score').textContent = '0';
-  document.getElementById('combo').classList.remove('show');
-  initStars();
-}
-
-function updateLives() {
-  const el = document.getElementById('lives');
-  el.innerHTML = '';
-  for (let i = 0; i < 3; i++) {
-    const h = document.createElement('span');
-    h.className = 'heart';
-    h.textContent = i < lives ? '💜' : '🖤';
-    el.appendChild(h);
-  }
-}
-
-function spawnParticles(x, y, color, count = 12) {
-  for (let i = 0; i < count; i++) {
-    const angle = (Math.PI * 2 / count) * i + Math.random() * 0.5;
-    const speed = Math.random() * 4 + 1;
-    particles.push({
-      x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      life: 1,
-      color,
-      r: Math.random() * 4 + 2
-    });
-  }
-}
-
-function spawnGate() {
-  const topH = Math.random() * (H() * 0.45) + H() * 0.1;
-  const gateW = 22;
-  gates.push({
-    x: W() + gateW,
-    topH,
-    bottomY: topH + gateGap,
-    w: gateW,
-    passed: false,
-    hue: Math.random() * 60 - 30, // color variation
-    pulse: Math.random() * Math.PI * 2
+  new QRCode(document.getElementById("qr-code"), {
+    text: pageURL + "?menu=1",
+    width: 200,
+    height: 200,
+    colorDark: "#1A0F0A",
+    colorLight: "#FDF6EC",
+    correctLevel: QRCode.CorrectLevel.H
   });
-}
 
-function drawShip(x, y, angle, alpha = 1) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(angle);
-  ctx.globalAlpha = alpha;
-
-  const grd = ctx.createLinearGradient(-18, 0, 18, 0);
-  grd.addColorStop(0, '#00f5ff');
-  grd.addColorStop(0.5, '#8338ec');
-  grd.addColorStop(1, '#ff006e');
-
-  // Body
-  ctx.beginPath();
-  ctx.moveTo(18, 0);
-  ctx.lineTo(-12, -12);
-  ctx.lineTo(-8, 0);
-  ctx.lineTo(-12, 12);
-  ctx.closePath();
-  ctx.fillStyle = grd;
-  ctx.fill();
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 1;
-  ctx.stroke();
-
-  // Cockpit glow
-  ctx.beginPath();
-  ctx.arc(4, 0, 5, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  ctx.fill();
-
-  // Engine glow
-  ctx.beginPath();
-  ctx.arc(-10, 0, 4, 0, Math.PI * 2);
-  ctx.fillStyle = `rgba(0,245,255,0.8)`;
-  ctx.fill();
-
-  ctx.restore();
-}
-
-function drawGate(g) {
-  const pulse = Math.sin(g.pulse + frame * 0.05) * 0.3 + 0.7;
-  const energyColor = `hsl(${180 + g.hue}, 100%, 60%)`;
-  const glowColor = `hsl(${180 + g.hue}, 100%, 70%)`;
-
-  // Top gate
-  const gradient1 = ctx.createLinearGradient(g.x, 0, g.x + g.w, g.topH);
-  gradient1.addColorStop(0, `hsla(${180+g.hue},100%,40%,0.9)`);
-  gradient1.addColorStop(1, `hsla(${180+g.hue},100%,60%,0.95)`);
-  ctx.fillStyle = gradient1;
-  ctx.fillRect(g.x, 0, g.w, g.topH);
-
-  // Bottom gate
-  const gradient2 = ctx.createLinearGradient(g.x, g.bottomY, g.x + g.w, H());
-  gradient2.addColorStop(0, `hsla(${180+g.hue},100%,60%,0.95)`);
-  gradient2.addColorStop(1, `hsla(${180+g.hue},100%,40%,0.9)`);
-  ctx.fillStyle = gradient2;
-  ctx.fillRect(g.x, g.bottomY, g.w, H() - g.bottomY);
-
-  // Energy beam at gap edges
-  ctx.shadowBlur = 20 * pulse;
-  ctx.shadowColor = glowColor;
-  ctx.strokeStyle = glowColor;
-  ctx.lineWidth = 3;
-
-  // Top edge glow
-  ctx.beginPath();
-  ctx.moveTo(g.x, g.topH);
-  ctx.lineTo(g.x + g.w, g.topH);
-  ctx.stroke();
-
-  // Bottom edge glow
-  ctx.beginPath();
-  ctx.moveTo(g.x, g.bottomY);
-  ctx.lineTo(g.x + g.w, g.bottomY);
-  ctx.stroke();
-
-  // Scanlines
-  ctx.shadowBlur = 0;
-  ctx.strokeStyle = `rgba(255,255,255,0.1)`;
-  ctx.lineWidth = 1;
-  for (let y = 0; y < g.topH; y += 8) {
-    ctx.beginPath();
-    ctx.moveTo(g.x, y);
-    ctx.lineTo(g.x + g.w, y);
-    ctx.stroke();
-  }
-  for (let y = g.bottomY; y < H(); y += 8) {
-    ctx.beginPath();
-    ctx.moveTo(g.x, y);
-    ctx.lineTo(g.x + g.w, y);
-    ctx.stroke();
+  // Auto-open menu if QR was scanned
+  if (window.location.search.includes('menu=1')) {
+    openMenu();
   }
 
-  // Center energy orb in gap
-  const cx = g.x + g.w / 2;
-  const cy = g.topH + gateGap / 2;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 8 * pulse, 0, Math.PI * 2);
-  const orbGrd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 8 * pulse);
-  orbGrd.addColorStop(0, 'rgba(255,255,255,0.9)');
-  orbGrd.addColorStop(1, `${glowColor.replace(')', ', 0)')}`);
-  ctx.fillStyle = orbGrd;
-  ctx.shadowBlur = 20;
-  ctx.shadowColor = glowColor;
-  ctx.fill();
-  ctx.shadowBlur = 0;
-}
-
-function drawBackground() {
-  // Deep space gradient
-  const grad = ctx.createLinearGradient(0, 0, 0, H());
-  grad.addColorStop(0, '#03001c');
-  grad.addColorStop(0.5, '#0a0a2e');
-  grad.addColorStop(1, '#04001a');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W(), H());
-
-  // Nebulae
-  for (const o of bgObjects) {
-    const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-    g.addColorStop(0, `${o.color}${o.alpha})`);
-    g.addColorStop(1, `${o.color}0)`);
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
-    ctx.fill();
-    o.x -= o.speed * gameSpeed;
-    if (o.x + o.r < 0) { o.x = W() + o.r; o.y = Math.random() * H(); }
+  function openMenu() {
+    document.getElementById('qr-page').style.display = 'none';
+    document.getElementById('menu-page').style.display = 'block';
+    window.scrollTo(0, 0);
   }
 
-  // Stars
-  for (const s of stars) {
-    const twinkle = Math.sin(frame * 0.03 + s.brightness * 10) * 0.4 + 0.6;
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${twinkle})`;
-    ctx.fill();
-    s.x -= s.speed * gameSpeed;
-    if (s.x < 0) { s.x = W(); s.y = Math.random() * H(); }
-  }
-}
+  // Language switching
+  let currentLang = 'ku';
 
-function drawTrail() {
-  for (let i = 0; i < player.trail.length; i++) {
-    const t = player.trail[i];
-    const alpha = (i / player.trail.length) * 0.5;
-    const r = (i / player.trail.length) * 6;
-    ctx.beginPath();
-    ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(0,245,255,${alpha})`;
-    ctx.fill();
-  }
-}
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
 
-function update() {
-  if (state !== 'playing') return;
-  frame++;
-  gameSpeed = 1 + score * 0.02;
+    // Item names
+    document.querySelectorAll('.item-name-ku, .item-name-en, .item-name-ar').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.desc-ku, .desc-en, .desc-ar').forEach(el => el.style.display = 'none');
+    document.querySelectorAll(`.item-name-${lang}`).forEach(el => el.style.display = 'block');
+    document.querySelectorAll(`.desc-${lang}`).forEach(el => el.style.display = 'block');
 
-  // Player physics
-  player.vy += player.gravity;
-  player.y += player.vy;
-  player.angle = Math.min(Math.max(player.vy * 0.04, -0.5), 0.8);
+    // Section headings
+    document.querySelectorAll('.section-label h2').forEach(el => el.style.display = 'none');
+    document.querySelectorAll(`.section-label h2.${lang}-t`).forEach(el => el.style.display = 'block');
 
-  // Trail
-  player.trail.push({ x: player.x, y: player.y });
-  if (player.trail.length > 15) player.trail.shift();
+    // Tab labels
+    document.querySelectorAll('.cat-tab span').forEach(el => el.style.display = 'none');
+    document.querySelectorAll(`.cat-tab span.${lang}-t`).forEach(el => el.style.display = 'inline');
 
-  // Bounds
-  if (player.y - player.height / 2 < 0) {
-    player.y = player.height / 2;
-    player.vy = 1;
-  }
-  if (player.y + player.height / 2 > H()) {
-    die();
-    return;
+    // RTL for Arabic
+    document.getElementById('menu-page').style.direction = lang === 'ar' ? 'rtl' : 'ltr';
   }
 
-  // Spawn gates
-  gateTimer++;
-  gateInterval = Math.max(70, 120 - score * 2);
-  if (gateTimer >= gateInterval) {
-    gateTimer = 0;
-    spawnGate();
+  // Category switching
+  function showCat(cat) {
+    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('sec-' + cat).classList.add('active');
+    event.target.classList.add('active');
   }
-
-  // Update gates
-  const speed = 3.5 * gameSpeed;
-  for (let i = gates.length - 1; i >= 0; i--) {
-    const g = gates[i];
-    g.x -= speed;
-    g.pulse += 0.05;
-
-    // Score
-    if (!g.passed && g.x + g.w < player.x) {
-      g.passed = true;
-      score++;
-      combo++;
-      document.getElementById('score').textContent = score;
-      if (combo >= 5) showCombo();
-      spawnParticles(player.x, player.y, '#ffd60a', 8);
-    }
-
-    // Collision
-    if (!invincible && g.x < player.x + player.width * 0.35 && g.x + g.w > player.x - player.width * 0.35) {
-      if (player.y - player.height * 0.35 < g.topH || player.y + player.height * 0.35 > g.bottomY) {
-        loseLife();
-        return;
-      }
-    }
-
-    if (g.x + g.w < -20) gates.splice(i, 1);
-  }
-
-  // Particles
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vy += 0.1;
-    p.life -= 0.03;
-    if (p.life <= 0) particles.splice(i, 1);
-  }
-
-  if (invincible > 0) invincible--;
-}
-
-function showCombo() {
-  const el = document.getElementById('combo');
-  el.textContent = `✦ COMBO x${combo} ✦`;
-  el.classList.add('show');
-  clearTimeout(window._comboTimer);
-  window._comboTimer = setTimeout(() => el.classList.remove('show'), 1200);
-}
-
-function loseLife() {
-  lives--;
-  invincible = 80;
-  combo = 0;
-  document.getElementById('combo').classList.remove('show');
-  spawnParticles(player.x, player.y, '#ff006e', 20);
-  updateLives();
-  if (lives <= 0) die();
-}
-
-function die() {
-  state = 'dead';
-  spawnParticles(player.x, player.y, '#ff006e', 30);
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem('cosmicHigh', highScore);
-  }
-  document.getElementById('highScore').textContent = `BEST: ${highScore}`;
-  setTimeout(showDeathScreen, 800);
-}
-
-function showDeathScreen() {
-  const overlay = document.getElementById('overlay');
-  document.querySelector('.title').textContent = 'GAME\nOVER';
-  document.querySelector('.title').style.fontSize = '2.2rem';
-  document.getElementById('finalScore').style.display = 'block';
-  document.getElementById('finalScore').textContent = `SCORE: ${score}`;
-  document.getElementById('bestScore').style.display = 'block';
-  document.getElementById('bestScore').textContent = `BEST: ${highScore}`;
-  document.getElementById('startBtn').textContent = '▶ دووبارەی هەوڵبدەوە';
-  document.getElementById('tipText').style.display = 'none';
-  overlay.classList.remove('hidden');
-}
-
-function draw() {
-  ctx.clearRect(0, 0, W(), H());
-  drawBackground();
-
-  if (state === 'playing' || state === 'dead') {
-    drawTrail();
-    for (const g of gates) drawGate(g);
-
-    // Particles
-    for (const p of particles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = p.life;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-
-    // Ship with invincible flash
-    const shipAlpha = invincible > 0 ? (Math.sin(frame * 0.4) * 0.5 + 0.5) : 1;
-    drawShip(player.x, player.y, player.angle, shipAlpha);
-
-    // Speed lines effect when fast
-    if (gameSpeed > 1.5) {
-      ctx.globalAlpha = (gameSpeed - 1.5) * 0.15;
-      for (let i = 0; i < 5; i++) {
-        const ly = Math.random() * H();
-        const len = Math.random() * 60 + 20;
-        ctx.strokeStyle = '#00f5ff';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(Math.random() * W(), ly);
-        ctx.lineTo(Math.random() * W() - len, ly);
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-    }
-
-    // Scanline overlay for CRT effect
-    ctx.fillStyle = 'rgba(0,0,0,0.03)';
-    for (let y = 0; y < H(); y += 4) {
-      ctx.fillRect(0, y, W(), 2);
-    }
-  }
-}
-
-function jump() {
-  if (state === 'playing') {
-    player.vy = player.jumpForce;
-    spawnParticles(player.x - 10, player.y, '#8338ec', 5);
-  }
-}
-
-function startGame() {
-  const overlay = document.getElementById('overlay');
-  const titleEl = document.querySelector('.title');
-  titleEl.innerHTML = 'COSMIC<br>DASH';
-  titleEl.style.fontSize = '2.8rem';
-  document.getElementById('finalScore').style.display = 'none';
-  document.getElementById('bestScore').style.display = 'none';
-  document.getElementById('startBtn').textContent = '▶ دەست پێبکە';
-  document.getElementById('tipText').style.display = 'block';
-  document.getElementById('highScore').textContent = `BEST: ${highScore}`;
-  overlay.classList.add('hidden');
-  resetGame();
-  state = 'playing';
-}
-
-// Controls
-document.getElementById('startBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  startGame();
-});
-document.getElementById('startBtn').addEventListener('touchend', e => {
-  e.preventDefault();
-  e.stopPropagation();
-  startGame();
-}, { passive: false });
-
-document.addEventListener('keydown', e => {
-  if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); }
-});
-
-// Touch - only jump if overlay is hidden (game is active)
-document.addEventListener('touchstart', e => {
-  if (state === 'playing') {
-    e.preventDefault();
-    jump();
-  }
-}, { passive: false });
-
-// Mouse click on canvas only
-canvas.addEventListener('mousedown', e => {
-  e.preventDefault();
-  jump();
-});
-
-// Game loop
-function loop() {
-  update();
-  draw();
-  requestAnimationFrame(loop);
-}
-
-// Init
-initStars();
-initPlayer();
-document.getElementById('highScore').textContent = `BEST: ${highScore}`;
-updateLives();
-loop();
-
-// Handle resize
-window.addEventListener('resize', () => {
-  resize();
-  if (state === 'menu') initPlayer();
-});
 </script>
 
 </body>
