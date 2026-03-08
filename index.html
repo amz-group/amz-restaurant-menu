@@ -38,7 +38,126 @@ overflow-x: hidden;
 -webkit-font-smoothing: antialiased;
 }
 
+/* =========== QR PAGE =========== */
+#qr-page {
+display: -webkit-box; display: -ms-flexbox; display: flex;
+-webkit-box-orient: vertical; -ms-flex-direction: column; flex-direction: column;
+-webkit-box-align: center; -ms-flex-align: center; align-items: center;
+-webkit-box-pack: center; -ms-flex-pack: center; justify-content: center;
+min-height: 100vh;
+background-color: #1A0F0A;
+background: -webkit-radial-gradient(center ellipse, #2C1A12 0%, #1A0F0A 70%);
+background: radial-gradient(ellipse at center, #2C1A12 0%, #1A0F0A 70%);
+padding: 40px 20px;
+position: relative;
+}
 
+#qr-page::before {
+content: ‘’;
+position: absolute; top:0; left:0; right:0; bottom:0;
+background-image:
+repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(201,168,76,.04) 40px, rgba(201,168,76,.04) 41px),
+repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(201,168,76,.04) 40px, rgba(201,168,76,.04) 41px);
+pointer-events: none; z-index: 0;
+}
+
+.logo-wrap {
+text-align: center; margin-bottom: 40px;
+position: relative; z-index: 1;
+-webkit-animation: fadeDown .9s ease both; animation: fadeDown .9s ease both;
+}
+
+.logo-line {
+display: -webkit-box; display: -ms-flexbox; display: flex;
+-webkit-box-align: center; -ms-flex-align: center; align-items: center;
+-webkit-box-pack: center; -ms-flex-pack: center; justify-content: center;
+gap: 16px; margin-bottom: 8px;
+}
+
+.logo-ornament {
+width: 60px; height: 1px;
+background: -webkit-linear-gradient(left, transparent, #C9A84C);
+background: linear-gradient(to right, transparent, #C9A84C);
+}
+.logo-ornament.right {
+background: -webkit-linear-gradient(right, transparent, #C9A84C);
+background: linear-gradient(to left, transparent, #C9A84C);
+}
+
+.logo-name {
+font-family: ‘Playfair Display’, Georgia, serif;
+font-size: 56px; font-weight: 900; color: #C9A84C;
+letter-spacing: 8px; line-height: 1;
+text-shadow: 0 0 40px rgba(201,168,76,.35);
+}
+
+.logo-sub {
+font-family: ‘Amiri’, Georgia, serif;
+color: #E8C97A; font-size: 15px; letter-spacing: 5px; opacity: .85; margin-top: 4px;
+}
+
+.diamonds {
+display: -webkit-box; display: -ms-flexbox; display: flex;
+gap: 8px; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center;
+margin-top: 14px;
+}
+.diamond {
+width: 6px; height: 6px; background: #C9A84C; opacity: .6;
+display: inline-block;
+-webkit-transform: rotate(45deg); transform: rotate(45deg);
+}
+.diamond.big { width: 10px; height: 10px; opacity: 1; }
+
+.qr-card {
+background-color: #FDF6EC; border-radius: 24px; padding: 36px 32px;
+text-align: center;
+-webkit-box-shadow: 0 0 60px rgba(201,168,76,.2), 0 30px 60px rgba(0,0,0,.5);
+box-shadow: 0 0 60px rgba(201,168,76,.2), 0 30px 60px rgba(0,0,0,.5);
+border: 2px solid rgba(201,168,76,.3);
+max-width: 340px; width: 100%;
+position: relative; z-index: 1;
+-webkit-animation: fadeUp .9s ease .3s both; animation: fadeUp .9s ease .3s both;
+}
+
+#qr-code {
+display: -webkit-box; display: -ms-flexbox; display: flex;
+-webkit-box-pack: center; -ms-flex-pack: center; justify-content: center;
+margin-bottom: 22px;
+}
+#qr-code canvas, #qr-code img {
+border-radius: 8px !important;
+border: 4px solid #C9A84C !important;
+display: block !important;
+}
+
+.scan-title {
+font-family: ‘Playfair Display’, Georgia, serif;
+font-size: 11px; color: #6B4C3B; letter-spacing: 3px;
+text-transform: uppercase; margin-bottom: 10px;
+}
+
+.scan-texts { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -ms-flex-direction: column; flex-direction: column; gap: 5px; }
+.scan-ku { font-family: ‘Noto Sans Kurdish’, Arial, sans-serif; font-size: 15px; color: #2C1A12; font-weight: 600; direction: rtl; }
+.scan-en { font-family: ‘Playfair Display’, Georgia, serif; font-size: 13px; color: #6B4C3B; direction: ltr; }
+.scan-ar { font-family: ‘Amiri’, Arial, serif; font-size: 15px; color: #6B4C3B; direction: rtl; }
+
+.open-btn {
+margin-top: 24px; display: inline-block; padding: 13px 36px;
+background-color: #2C1A12;
+background: -webkit-linear-gradient(315deg, #2C1A12, #8B3A1E);
+background: linear-gradient(135deg, #2C1A12, #8B3A1E);
+color: #E8C97A; font-family: ‘Playfair Display’, Georgia, serif;
+font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+border: 1px solid #C9A84C; border-radius: 40px; cursor: pointer;
+-webkit-transition: all .3s ease; transition: all .3s ease;
+-webkit-box-shadow: 0 4px 20px rgba(0,0,0,.3); box-shadow: 0 4px 20px rgba(0,0,0,.3);
+outline: none; -webkit-appearance: none; appearance: none;
+}
+.open-btn:hover, .open-btn:focus {
+background: -webkit-linear-gradient(315deg, #8B3A1E, #2C1A12);
+background: linear-gradient(135deg, #8B3A1E, #2C1A12);
+-webkit-transform: translateY(-2px); transform: translateY(-2px);
+}
 
 /* =========== MENU PAGE =========== */
 #menu-page { display: none; background-color: #FDF6EC; min-height: 100vh; }
@@ -241,7 +360,31 @@ font-family: ‘Playfair Display’, Georgia, serif;
 </head>
 <body>
 
+<!-- QR PAGE -->
 
+<div id="qr-page">
+  <div class="logo-wrap">
+    <div class="logo-line">
+      <div class="logo-ornament"></div>
+      <div class="logo-name">AMZ</div>
+      <div class="logo-ornament right"></div>
+    </div>
+    <div class="logo-sub">RESTAURANT</div>
+    <div class="diamonds">
+      <div class="diamond"></div><div class="diamond big"></div><div class="diamond"></div>
+    </div>
+  </div>
+  <div class="qr-card">
+    <div id="qr-code"></div>
+    <div class="scan-title">SCAN TO VIEW MENU</div>
+    <div class="scan-texts">
+      <div class="scan-ku">📱 QR بسکانێنە بۆ دیتنی مینو</div>
+      <div class="scan-en">Scan QR code to view our menu</div>
+      <div class="scan-ar">امسح رمز QR لعرض قائمتنا</div>
+    </div>
+    <button class="open-btn" onclick="openMenu()">&#9654;&nbsp;&nbsp;Open Menu</button>
+  </div>
+</div>
 
 <!-- MENU PAGE -->
 
@@ -258,15 +401,15 @@ font-family: ‘Playfair Display’, Georgia, serif;
   </div>
 
   <div class="lang-bar">
-    <button class="lang-btn active" onclick="setLang('ku',this)">🇹🇯 کوردی</button>
+    <button class="lang-btn active" onclick="setLang('ku',this)">🇮🇶 کوردی</button>
     <button class="lang-btn" onclick="setLang('en',this)">🇬🇧 English</button>
-    <button class="lang-btn" onclick="setLang('ar',this)">🇮🇶 عربي</button>
+    <button class="lang-btn" onclick="setLang('ar',this)">🇸🇦 عربي</button>
   </div>
 
   <div class="cat-tabs">
     <button class="cat-tab active" onclick="showCat('starters',this)"><span class="ku-t">پێشخواردن</span><span class="en-t" style="display:none">Starters</span><span class="ar-t" style="display:none">المقبلات</span></button>
     <button class="cat-tab" onclick="showCat('mains',this)"><span class="ku-t">خواردنی سەرەکی</span><span class="en-t" style="display:none">Main Course</span><span class="ar-t" style="display:none">الرئيسية</span></button>
-    <button class="cat-tab" onclick="showCat('grills',this)"><span class="ku-t">برژاوەکان</span><span class="en-t" style="display:none">Grills & Kebab</span><span class="ar-t" style="display:none">المشويات</span></button>
+    <button class="cat-tab" onclick="showCat('grills',this)"><span class="ku-t">گریل و کەباب</span><span class="en-t" style="display:none">Grills & Kebab</span><span class="ar-t" style="display:none">المشويات</span></button>
     <button class="cat-tab" onclick="showCat('desserts',this)"><span class="ku-t">شیرینی</span><span class="en-t" style="display:none">Desserts</span><span class="ar-t" style="display:none">الحلويات</span></button>
     <button class="cat-tab" onclick="showCat('drinks',this)"><span class="ku-t">خواردنەوە</span><span class="en-t" style="display:none">Drinks</span><span class="ar-t" style="display:none">المشروبات</span></button>
   </div>
@@ -277,7 +420,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
     <div class="section-label"><h2 class="ku-t">پێشخواردن</h2><h2 class="en-t" style="display:none">Starters</h2><h2 class="ar-t" style="display:none">المقبلات</h2></div>
     <div class="items-grid">
 
-
+```
   <div class="menu-item">
     <div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=600&q=80" alt="Hummus" loading="lazy"><span class="item-badge">&#11088; Popular</span></div>
     <div class="item-body">
@@ -306,7 +449,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
   </div>
 
 </div>
-
+```
 
   </div>
 
@@ -316,7 +459,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
     <div class="section-label"><h2 class="ku-t">خواردنی سەرەکی</h2><h2 class="en-t" style="display:none">Main Course</h2><h2 class="ar-t" style="display:none">الأطباق الرئيسية</h2></div>
     <div class="items-grid">
 
-
+```
   <div class="menu-item">
     <div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80" alt="Biryani" loading="lazy"><span class="item-badge">&#11088; Popular</span></div>
     <div class="item-body">
@@ -345,6 +488,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
   </div>
 
 </div>
+```
 
   </div>
 
@@ -354,6 +498,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
     <div class="section-label"><h2 class="ku-t">گریل و کەباب</h2><h2 class="en-t" style="display:none">Grills & Kebab</h2><h2 class="ar-t" style="display:none">المشويات والكباب</h2></div>
     <div class="items-grid">
 
+```
   <div class="menu-item">
     <div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1544025162-d76538d60f68?w=600&q=80" alt="Mixed Grill" loading="lazy"><span class="item-badge">&#11088; Best Seller</span></div>
     <div class="item-body">
@@ -382,6 +527,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
   </div>
 
 </div>
+```
 
   </div>
 
@@ -391,6 +537,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
     <div class="section-label"><h2 class="ku-t">شیرینی</h2><h2 class="en-t" style="display:none">Desserts</h2><h2 class="ar-t" style="display:none">الحلويات</h2></div>
     <div class="items-grid">
 
+```
   <div class="menu-item">
     <div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=600&q=80" alt="Baklava" loading="lazy"><span class="item-badge">&#11088; Popular</span></div>
     <div class="item-body">
@@ -419,7 +566,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
   </div>
 
 </div>
-
+```
 
   </div>
 
@@ -429,6 +576,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
     <div class="section-label"><h2 class="ku-t">خواردنەوە</h2><h2 class="en-t" style="display:none">Beverages</h2><h2 class="ar-t" style="display:none">المشروبات</h2></div>
     <div class="items-grid">
 
+```
   <div class="menu-item">
     <div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=600&q=80" alt="Juice" loading="lazy"><span class="item-badge">&#127807; Fresh</span></div>
     <div class="item-body">
@@ -457,7 +605,7 @@ font-family: ‘Playfair Display’, Georgia, serif;
   </div>
 
 </div>
-
+```
 
   </div>
 
